@@ -33,15 +33,15 @@
 	});
 
 	module.factory('notifications', ['$rootScope', function ($rootScope) {
-		var showError = function (message) {
+		var showError = function (message, options) {
 			$rootScope.$broadcast('notifications:error', message);
 		};
 
-		var showWarning = function (message) {
+		var showWarning = function (message, options) {
 			$rootScope.$broadcast('notifications:warning', message);
 		};
 
-		var showSuccess = function (message) {
+		var showSuccess = function (message, options) {
 			$rootScope.$broadcast('notifications:success', message);
 		};
 
@@ -58,8 +58,8 @@
 			template: '\
 				<div class="notifications-container" ng-if="notifications.length">\
 					<div class="{{note.type}}" ng-repeat="note in notifications">\
-						<span class="message">{{note.message}}</span>\
-						<span class="glyphicon glyphicon-remove close-click" ng-click="close($index)"></span>\
+						<span class="message" ng-bind-html="note.message"></span>\
+						<span class="glyphicon glyphicon-remove close-click" ng-click="close($index)" ng-show="!hideClose"></span>\
 					</div>\
 				</div>\
 			',
@@ -83,12 +83,13 @@
 				};
 
 				var notificationHandler = function (event, data, type) {
-					var message, hide;
+					var message, hide, hideClose = false;
 
 					if (typeof data === 'object') {
 						message = data.message;
-						hide = (typeof data.hide === 'undefined') ? autoHide : !!data.hide; //control auto hide per notification
+						hide = (typeof data.hide === 'undefined') ? autoHide : !! data.hide; //control auto hide per notification
 						hideDelay = data.hideDelay || defaultTimeout; //control hide delay per notification
+						hideClose = data.hideClose || false; //control hide the close button
 					} else {
 						message = data;
 					}
