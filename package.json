@@ -1,6 +1,6 @@
 {
   "name": "ng-notifications-bar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Angular.js component for stylish and flexible application notifications.",
   "main": "src/ngNotificationsBar.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexanderbeletsky/ng-notifications-bar.git"
+    "url": "https://github.com/jguffey/ng-notifications-bar.git"
   },
   "keywords": [
     "angular",
@@ -23,9 +23,9 @@
   "author": "alexander.beletsky@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alexanderbeletsky/ng-notifications-bar/issues"
+    "url": "https://github.com/jguffey/ng-notifications-bar/issues"
   },
-  "homepage": "https://github.com/alexanderbeletsky/ng-notifications-bar",
+  "homepage": "https://github.com/jguffey/ng-notifications-bar",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-compass": "^1.0.1",
