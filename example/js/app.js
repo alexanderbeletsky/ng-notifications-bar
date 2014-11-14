@@ -1,7 +1,8 @@
-var app = angular.module('app', ['ngNotificationsBar']);
+var app = angular.module('app', ['ngNotificationsBar', 'ngSanitize']);
+
 app.config(['notificationsConfigProvider', function(notificationsConfigProvider){
-	notificationsConfigProvider.setHideDelay(3000);
-	notificationsConfigProvider.setAutoHide(true);
+	notificationsConfigProvider.setHideDelay(10000);
+	notificationsConfigProvider.setAutoHide(false);
 }]);
 
 app.controller('main', function ($scope, notifications) {
@@ -14,7 +15,7 @@ app.controller('main', function ($scope, notifications) {
 	};
 
 	$scope.showSuccess = function () {
-		notifications.showSuccess({message: 'Congrats! Life is great! (uses default settings)'});
+		notifications.showSuccess({message: 'Congrats! Life is great! (uses default settings) <a href="http://www.google.com">safe link!</a>', hideClose: true});
 	};
 
 });

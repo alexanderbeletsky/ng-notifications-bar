@@ -33,15 +33,15 @@
 	});
 
 	module.factory('notifications', ['$rootScope', function ($rootScope) {
-		var showError = function (message, options) {
+		var showError = function (message) {
 			$rootScope.$broadcast('notifications:error', message);
 		};
 
-		var showWarning = function (message, options) {
+		var showWarning = function (message) {
 			$rootScope.$broadcast('notifications:warning', message);
 		};
 
-		var showSuccess = function (message, options) {
+		var showSuccess = function (message) {
 			$rootScope.$broadcast('notifications:success', message);
 		};
 
@@ -59,12 +59,13 @@
 				<div class="notifications-container" ng-if="notifications.length">\
 					<div class="{{note.type}}" ng-repeat="note in notifications">\
 						<span class="message" ng-bind-html="note.message"></span>\
-						<span class="glyphicon glyphicon-remove close-click" ng-click="close($index)" ng-show="!hideClose"></span>\
+						<span class="glyphicon glyphicon-remove close-click" ng-click="close($index)" ng-show="!note.hideClose"></span>\
 					</div>\
 				</div>\
 			',
 			link: function (scope) {
 				var notifications = scope.notifications = [];
+				scope.hideClose = false;
 				var timers = [];
 				var defaultTimeout = notificationsConfig.getHideDelay() || 3000; //control hide delay globaly throught module.config()
 				var autoHide = notificationsConfig.getAutoHide() || false; //control auto hide globaly throught module.config()
@@ -83,8 +84,7 @@
 				};
 
 				var notificationHandler = function (event, data, type) {
-					var message, hide, hideClose = false;
-
+					var message, hide, hideClose;
 					if (typeof data === 'object') {
 						message = data.message;
 						hide = (typeof data.hide === 'undefined') ? autoHide : !! data.hide; //control auto hide per notification
@@ -95,7 +95,7 @@
 					}
 
 					var id = 'notif_' + (Math.floor(Math.random() * 100));
-					notifications.push({id: id, type: type, message: message});
+					notifications.push({id: id, type: type, message: message, hideClose: hideClose});
 					if (hide) {
 						var timer = $timeout(function () {
 							// TODO: apply the animation
