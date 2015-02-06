@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="../dist/ngNotificationsBar.min.css">
 
 	<script src="../bower_components/angular/angular.js"></script>
+	<script src="../bower_components/angular-cookies/angular-cookies.js"></script>
 	<script src="../src/ngNotificationsBar.js"></script>
 
 	<!-- <script src="../dist/ngNotificationsBar.min.js"></script> -->
@@ -44,6 +45,13 @@ app.controller(<span class="str">'main'</span>, function ($scope, notifications)
 		notifications.showSuccess(<span class="str">'Congrats! Life is great!'</span>);
 	};
 });</pre>
+	</section>
+
+	<section class="options">
+		<label for="saveUserResponse">
+			<input type="checkbox" id="saveUserResponse" name="saveUserResponse" ng-model="model.saveUserResponse"/>
+			Save Responses ($cookieStore)
+		</label>
 	</section>
 
 	<section class="buttons">

@@ -1,21 +1,47 @@
-var app = angular.module('app', ['ngNotificationsBar', 'ngSanitize']);
+'use strict';
+
+var app = angular.module('app', [
+	'ngNotificationsBar',
+	'ngCookies'
+]);
 app.config(['notificationsConfigProvider', function(notificationsConfigProvider){
 	notificationsConfigProvider.setHideDelay(3000);
 	notificationsConfigProvider.setAutoHide(true);
 	notificationsConfigProvider.setAcceptHTML(true);
+
+	// Create unique prefix for cookies
+	notificationsConfigProvider.setCookiePrefix('ngNotificationsApp');
 }]);
 
-app.controller('main', function ($scope, notifications) {
+app.controller('main', function ($scope, $cookieStore, notifications) {
+	// Purge cookies for each use on example page reload.
+	notifications.deleteCookie();
+
+	$scope.model = {
+		saveUserResponse: false
+	};
+
 	$scope.showError = function () {
-		notifications.showError('Oops! Something bad just happend!');
+		notifications.showError({
+			id: 'something-bad-happened',
+			saveResponse: $scope.model.saveUserResponse,
+			message: 'Oops! Something bad just happend!'
+		});
 	};
 
 	$scope.showWarning = function () {
-		notifications.showWarning('Hey! Take a look <em>here<em>..');
+		notifications.showWarning({
+			id: 'take-a-look',
+			saveResponse: $scope.model.saveUserResponse,
+			message: 'Hey! Take a look here..'
+		});
 	};
 
 	$scope.showSuccess = function () {
-		notifications.showSuccess('Congrats! Life is great!');
+		notifications.showSuccess({
+			id: 'life-is-great',
+			saveResponse: $scope.model.saveUserResponse,
+			message: 'Congrats! Life is great!'
+		});
 	};
-
 });
