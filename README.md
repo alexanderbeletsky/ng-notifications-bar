@@ -32,7 +32,8 @@ Update your scripts and styles section or use the require for browserified appli
 
 ```html
 <link rel="stylesheet" href="bower_components/ng-notifications-bar/dist/ngNotificationsBar.min.css" />
-<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script> <!-- required for acceptHTML option -->
+<script src="bower_components/angular-cookies/angular-cookies.js"></script> <!-- required for saveResponse option -->
 <script scr="bower_components/angular-notifications-bar/dist/ng-notifications-bar.min.js"></script>
 ```
 
@@ -53,7 +54,11 @@ In case you are using `sass` in project, it's possible to just import `ngNotific
 In application module,
 
 ```js
-angular.module('app', ['ngNotificationsBar', 'ngSanitize']);
+angular.module('app', [
+    'ngNotificationsBar',
+    'ngSanitize', /* required for acceptHTML option */
+    'ngCookies' /* required saveResponse option */
+]);
 ```
 
 Please **note**, since `ng-notifications-bar` have a dependency on `glyphicons` you have to copy `/fonts` folder into yours `/public` folder manually. Also `ngSanitize` can be omitted if HTML support isn't needed.
@@ -106,11 +111,25 @@ app.controllers('app', function ($scope, api, notifications) {
 
 ```js
 app.config(['notificationsConfigProvider'], function (notificationsConfigProvider) {
-	// auto hide
-	notificationsConfigProvider.setAutoHide(true)
+	// Auto hide
+	//  Default: false
+	notificationsConfigProvider.setAutoHide(true);
 
-	// delay before hide
-	notificationsConfigProvider.setHideDelay(3000)
+	// Delay before hide
+	//  Default: 3000
+	notificationsConfigProvider.setHideDelay(3000);
+	
+	// Render html within a notification message
+	//  Default: false
+	notificationsConfigProvider.setAcceptHTML(true);
+
+    // Save the user's response to a cookie to prevent it in the future
+    //  Default: false
+    notificationsConfigProvider.saveResponse(true);
+
+	// Create unique prefix for cookies.
+	//  Default: 'ngNotificationsBar'
+	notificationsConfigProvider.setCookiePrefix('ngNotificationsApp');
 }])
 ```
 
@@ -121,14 +140,12 @@ Available options:
 
 - autoHide
 - hideDelay
+- saveResponse
 - acceptHTML
 
-Please **note**, HTML support is only configurable at a global level. If HTML is to be supported, make sure to inject the `'ngSanitize'` dependency.
-
-```js
-var app = angular.module('app', ['ngNotificationsBar', 'ngSanitize']);
-```
-
+*Notes*:
+ * HTML support is only configurable at a global level. If HTML is to be supported, make sure to inject the `'ngSanitize'` dependency.
+ * To properly ignore a notification with `'saveResponse'` it must have an id provided when it is declared. Without this there is no way to compare it against the black list in the future and the notification will not be ignored. 
 
 ### During configuration
 
@@ -155,6 +172,14 @@ app.controller('main', function ($scope, notifications) {
 			message: 'Oops! Something bad just happened! (hides faster)',
 			hideDelay: 1500, //ms
 			hide: true //bool
+		});
+	};
+	
+	$scope.showWarning = function () {
+		notifications.showWarning({
+		    id: 'ignore-me', // required for saveResponse option to ignore correctly.
+			message: 'This message will be ignored once the user closes it',
+			saveResponse: true
 		});
 	};
 });

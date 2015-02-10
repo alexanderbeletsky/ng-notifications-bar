@@ -1,0 +1,16 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": ".",
+			"folder_exclude_patterns": [
+				".sass-cache",
+				"node_modules",
+				"bower_components",
+				"fonts",
+				"dist" // we shouldn't need to view dist because it is purely minified code
+			]
+		}
+	]
+}
