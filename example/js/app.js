@@ -2,6 +2,7 @@
 
 var app = angular.module('app', [
 	'ngNotificationsBar',
+	'ngSanitize',
 	'ngCookies'
 ]);
 app.config(['notificationsConfigProvider', function(notificationsConfigProvider){
@@ -25,7 +26,7 @@ app.controller('main', function ($scope, $cookieStore, notifications) {
 		notifications.showError({
 			id: 'something-bad-happened',
 			saveResponse: $scope.model.saveUserResponse,
-			message: 'Oops! Something bad just happend!'
+			message: 'Oops! <i>Something bad just happend!</i>'
 		});
 	};
 

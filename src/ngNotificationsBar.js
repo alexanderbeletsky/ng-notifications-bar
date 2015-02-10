@@ -116,14 +116,14 @@
 			ignoreNotification: function(id) {
 				var currentIgnoredNotifications = this.getCookie() || {};
 
-				currentIgnoredNotifications[normalizeIdForCookie] = true;
+				currentIgnoredNotifications[normalizeIdForCookie(id)] = true;
 				setCookie(currentIgnoredNotifications);
 			},
 
 			isNotificationIgnored: function(id) {
 				var currentIgnoredNotifications = this.getCookie() || {};
 
-				if (currentIgnoredNotifications[normalizeIdForCookie]) {
+				if (currentIgnoredNotifications[normalizeIdForCookie(id)]) {
 					return true;
 				}
 
@@ -142,13 +142,13 @@
 					<div class="notifications-container" ng-if="notificationList.length">\
 						<div class="{{note.type}}" ng-repeat="note in notificationList">\
 							<span class="message" ng-bind-html="note.message"></span>\
-							<span class="glyphicon glyphicon-remove close-click" ng-click="close($index)"></span>\
+							<span class="glyphicon glyphicon-remove close-click" ng-click="close(note)"></span>\
 						</div>\
 					</div>\
 				' : '\
 					<div class="notifications-container" ng-if="notificationList.length">\
 						<div class="{{note.type}}" ng-repeat="note in notificationList">\
-							<span class="message" >{{note.message}}</span>\
+							<span class="message">{{note.message}}</span>\
 							<span class="glyphicon glyphicon-remove close-click" ng-click="close(note)"></span>\
 						</div>\
 					</div>\

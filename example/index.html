@@ -36,13 +36,21 @@
 <span class="kwrd">var</span> app = angular.module(<span class="str">'app'</span>, [<span class="str">'ngNotificationsBar'</span>]);
 app.controller(<span class="str">'main'</span>, function ($scope, notifications) {
 	$scope.showError = function () {
-		notifications.showError(<span class="str">'Oops! Something bad just happend!'</span>);
+		notifications.showError({
+			id: <span class="str">'something-bad-happened'</span>,
+			saveResponse: <span class="str">true</span>,
+			message: <span class="str">'Oops! Something bad just happend!'</span>
+		});
 	};
 	$scope.showWarning = function () {
 		notifications.showWarning(<span class="str">'Hey! Take a look &lt;em&gt;here&lt;/em&gt;..'</span>);
 	};
 	$scope.showSuccess = function () {
-		notifications.showSuccess(<span class="str">'Congrats! Life is great!'</span>);
+		notifications.showSuccess({
+			id: <span class="str">'life-is-great'</span>,
+			saveResponse: <span class="str">false</span>,
+			message: <span class="str">'Congrats! Life is great!'</span>
+		});
 	};
 });</pre>
 	</section>
