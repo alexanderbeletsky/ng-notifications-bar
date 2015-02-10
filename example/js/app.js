@@ -30,11 +30,7 @@ app.controller('main', function ($scope, $cookieStore, notifications) {
 	};
 
 	$scope.showWarning = function () {
-		notifications.showWarning({
-			id: 'take-a-look',
-			saveResponse: $scope.model.saveUserResponse,
-			message: 'Hey! Take a look here..'
-		});
+		notifications.showWarning('Hey! Take a look <em>here<em>..');
 	};
 
 	$scope.showSuccess = function () {
