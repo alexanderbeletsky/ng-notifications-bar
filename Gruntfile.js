@@ -8,13 +8,25 @@ module.exports = function (grunt) {
 			},
 			main: {
 				files: {
-					'./dist/ngNotificationsBar.min.js': ['./src/ngNotificationsBar.js']
+					'./dist/ngNotificationsBar.min.js': ['./tmp/ngNotificationsBar.js']
 				}
 			}
 		},
 		jshint: {
 			files: ['src/*.js']
 		},
+
+		ngAnnotate : {
+			options: {
+				singleQuotes: true
+			},
+			app : {
+				files: {
+					'./tmp/ngNotificationsBar.js' : ['./src/ngNotificationsBar.js']
+				}
+			}
+		},
+
 		compass: {
 			dev: {
 				options: {
@@ -95,10 +107,11 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-shell');
+	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	grunt.registerTask('sass', ['compass', 'cssmin']);
-	grunt.registerTask('build', ['uglify', 'compass', 'cssmin', 'wiredep', 'copy']);
+	grunt.registerTask('build', ['ngAnnotate', 'uglify', 'compass', 'cssmin', 'wiredep', 'copy']);
 	grunt.registerTask('deploy', ['build', 'shell']);
 
 	grunt.registerTask('start:example', ['build', 'connect', 'watch']);
