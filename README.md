@@ -32,6 +32,7 @@ Update your scripts and styles section or use the require for browserified appli
 
 ```html
 <link rel="stylesheet" href="bower_components/ng-notifications-bar/dist/ngNotificationsBar.min.css" />
+<script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/ng-notifications-bar/dist/ngNotificationsBar.min.js"></script>
 ```
@@ -89,7 +90,7 @@ Possible to use as attribute, as well
 `notification` service is used by controllers (or other directives), to show notifications.
 
 ```js
-app.controllers('app', function ($scope, api, notifications) {
+app.controller('app', function ($scope, api, notifications) {
 	api.get({resource: 'tasks'})
 		.then(function (tasks) {
 			$scope.tasks = tasks;
@@ -113,7 +114,7 @@ app.controllers('app', function ($scope, api, notifications) {
 `notificationsConfigProvider` is used to override some notifications bar defaults.
 
 ```js
-app.config(['notificationsConfigProvider'], function (notificationsConfigProvider) {
+app.config(['notificationsConfigProvider', function (notificationsConfigProvider) {
 	// auto hide
 	notificationsConfigProvider.setAutoHide(true)
 
@@ -130,6 +131,8 @@ Available options:
 - autoHide
 - hideDelay
 - acceptHTML
+- autoHideAnimation
+- autoHideAniationDelay
 
 Please **note**, HTML support is only configurable at a global level. If HTML is to be supported, make sure to inject the `'ngSanitize'` dependency.
 
@@ -150,6 +153,13 @@ app.config(['notificationsConfigProvider'], function (notificationsConfigProvide
 
 	// support HTML
 	notificationsConfigProvider.setAcceptHTML(false);
+	
+	// Set an animation for hiding the notification
+	notificationsConfigProvider.setAutoHideAnimation('fadeOutNotifications');
+	
+	// delay between animation and removing the nofitication
+	notificationsConfigProvider.setAutoHideAnimationDelay(1200);
+	
 }])
 ```
 
