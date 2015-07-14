@@ -90,7 +90,7 @@ Possible to use as attribute, as well
 `notification` service is used by controllers (or other directives), to show notifications.
 
 ```js
-app.controllers('app', function ($scope, api, notifications) {
+app.controller('app', function ($scope, api, notifications) {
 	api.get({resource: 'tasks'})
 		.then(function (tasks) {
 			$scope.tasks = tasks;
