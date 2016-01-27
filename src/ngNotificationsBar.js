@@ -160,7 +160,7 @@
 					   }
 					});
 				};
-
+				/*avoid problem*/
 				var removeNotification = function (elementToRemove) {
 				   notifications.forEach(function (el, index) {
 
