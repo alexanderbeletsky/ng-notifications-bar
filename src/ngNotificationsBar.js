@@ -147,21 +147,27 @@
 					var found = -1;
 
 					notifications.forEach(function (el, index) {
-						if (el.id === id) {
-							found = index;
-							
-							el.animation = {};
-							el.animation[autoHideAnimation] = true;
-							
-							scope.$apply();
-						}
-					});
 
-					if (found >= 0) {
-						$timeout(function(){
-							notifications.splice(found, 1);
-						}, autoHideAnimationDelay);
-					}
+					   if (el.id == id) {
+					      found = index;
+
+					      el.animation = {};
+					      el.animation[autoHideAnimation] = true;
+
+					      $timeout(function(){
+					         removeNotification(el);
+					      }, autoHideAnimationDelay);
+					   }
+					});
+				};
+				/*avoid problem*/
+				var removeNotification = function (elementToRemove) {
+				   notifications.forEach(function (el, index) {
+
+				      if (el.id == elementToRemove.id) {
+				         notifications.splice(index, 1);
+				      }
+				   });
 				};
 
 				var notificationHandler = function (event, data, type, animation) {
@@ -176,6 +182,7 @@
 					}
 
 					var id = 'notif_' + (new Date()).getTime();
+
 					notifications.push({id: id, type: type, message: message, animation: animation});
 					if (hide) {
 						var timer = $timeout(function () {
