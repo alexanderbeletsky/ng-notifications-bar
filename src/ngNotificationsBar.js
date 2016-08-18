@@ -205,10 +205,18 @@
 
 				scope.close = function (index) {
 					var autoHideAnimationDelay = notificationsConfig.getAutoHideAnimationDelay() || 1200;
-
+					var notificationId = notifications[index].id;
 					notifications[index].close = true;
+					
 					$timeout(function(){
-						notifications.splice(index, 1);
+						notifications.some(function (note, idx) {
+							if (note.id != notificationId) {
+								return false;
+							} else {
+								notifications.splice(idx, 1);
+								return true;
+							}
+						});
 					}, autoHideAnimationDelay);
 				};
 			}
