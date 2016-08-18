@@ -141,7 +141,6 @@
 				var autoHideDelay = notificationsConfig.getHideDelay() || 3000;
 				var autoHide = notificationsConfig.getAutoHide() || false;
 				var autoHideAnimation = notificationsConfig.getAutoHideAnimation() || '';
-				var autoHideAnimationDelay = notificationsConfig.getAutoHideAnimationDelay() || 1200;
 
 				var removeById = function (id) {
 					var found = -1;
