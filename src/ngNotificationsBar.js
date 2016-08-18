@@ -120,14 +120,14 @@
 				var iconClasses = attr.closeicon || 'glyphicon glyphicon-remove';
 				return acceptHTML ? '\
 					<div class="notifications-container" ng-if="notifications.length">\
-						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
+						<div class="{{note.type}}" ng-class="{close: note.close}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" ng-bind-html="note.message"></span>\
 							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
 						</div>\
 					</div>\
 				' : '\
 					<div class="notifications-container" ng-if="notifications.length">\
-						<div class="{{note.type}}" ng-repeat="note in notifications" ng-class="note.animation">\
+						<div class="{{note.type}}" ng-class="{close: note.close}" ng-repeat="note in notifications" ng-class="note.animation">\
 							<span class="message" >{{note.message}}</span>\
 							<span class="' + iconClasses + ' close-click" ng-click="close($index)"></span>\
 						</div>\
@@ -141,7 +141,6 @@
 				var autoHideDelay = notificationsConfig.getHideDelay() || 3000;
 				var autoHide = notificationsConfig.getAutoHide() || false;
 				var autoHideAnimation = notificationsConfig.getAutoHideAnimation() || '';
-				var autoHideAnimationDelay = notificationsConfig.getAutoHideAnimationDelay() || 1200;
 
 				var removeById = function (id) {
 					var found = -1;
@@ -158,9 +157,7 @@
 					});
 
 					if (found >= 0) {
-						$timeout(function(){
-							notifications.splice(found, 1);
-						}, autoHideAnimationDelay);
+						scope.close(found);
 					}
 				};
 
@@ -206,7 +203,20 @@
 				})
 
 				scope.close = function (index) {
-					notifications.splice(index, 1);
+					var autoHideAnimationDelay = notificationsConfig.getAutoHideAnimationDelay() || 1200;
+					var notificationId = notifications[index].id;
+					notifications[index].close = true;
+					
+					$timeout(function(){
+						notifications.some(function (note, idx) {
+							if (note.id != notificationId) {
+								return false;
+							} else {
+								notifications.splice(idx, 1);
+								return true;
+							}
+						});
+					}, autoHideAnimationDelay);
 				};
 			}
 		};
