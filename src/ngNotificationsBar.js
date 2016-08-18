@@ -158,10 +158,7 @@
 					});
 
 					if (found >= 0) {
-						notifications[found].close = true;
-						$timeout(function(){
-							notifications.splice(found, 1);
-						}, autoHideAnimationDelay);
+						scope.close(found);
 					}
 				};
 
