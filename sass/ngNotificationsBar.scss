@@ -46,6 +46,11 @@
 		background-color: #0c6997;
 		border-bottom: 1px solid #0c6997;
 	}
+	
+	.close {
+		@extend .notification;
+		@include fadeOutUp();
+	}
 
 	.close-click {
 		font-size: 12px;
