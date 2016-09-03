@@ -143,7 +143,7 @@ var app = angular.module('app', ['ngNotificationsBar', 'ngSanitize']);
 ### During configuration
 
 ```js
-app.config(['notificationsConfigProvider'], function (notificationsConfigProvider) {
+app.config(['notificationsConfigProvider', function (notificationsConfigProvider) {
 	// auto hide
 	notificationsConfigProvider.setAutoHide(true);
 
