@@ -132,6 +132,7 @@ Available options:
 - acceptHTML
 - autoHideAnimation
 - autoHideAniationDelay
+- autoMaxNotifications
 
 Please **note**, HTML support is only configurable at a global level. If HTML is to be supported, make sure to inject the `'ngSanitize'` dependency.
 
@@ -159,6 +160,8 @@ app.config(['notificationsConfigProvider'], function (notificationsConfigProvide
 	// delay between animation and removing the nofitication
 	notificationsConfigProvider.setAutoHideAnimationDelay(1200);
 	
+	// Limit the amount on-screen nofitications 
+	notificationsConfigProvider.setAutoMaxNotifications(2);
 }])
 ```
 
