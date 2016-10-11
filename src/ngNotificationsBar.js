@@ -30,6 +30,13 @@
 			return config.acceptHTML;
 		}
 
+		function setAutoMaxNotifications(value) {
+			config.maxNotifications = value;
+		}
+
+		function getAutoMaxNotifications() {
+			return config.maxNotifications;
+		}
 
 		function setAutoHide(value){
 			config.autoHide = value;
@@ -64,6 +71,8 @@
 			
 			setAutoHideAnimationDelay: setAutoHideAnimationDelay,
 
+			setAutoMaxNotifications: setAutoMaxNotifications,
+
 			setAcceptHTML: setAcceptHTML,
 
 			$get: function(){
@@ -75,6 +84,8 @@
 					getAutoHideAnimation: getAutoHideAnimation,
 					
 					getAutoHideAnimationDelay: getAutoHideAnimationDelay,
+
+					getAutoMaxNotifications: getAutoMaxNotifications,
 
 					getAcceptHTML: getAcceptHTML
 				};
@@ -142,6 +153,7 @@
 				var autoHide = notificationsConfig.getAutoHide() || false;
 				var autoHideAnimation = notificationsConfig.getAutoHideAnimation() || '';
 				var autoHideAnimationDelay = notificationsConfig.getAutoHideAnimationDelay() || 1200;
+				var autoMaxNotifications = notificationsConfig.getAutoMaxNotifications() || false;
 
 				var removeById = function (id) {
 					var found = -1;
@@ -164,19 +176,33 @@
 					}
 				};
 
-				var notificationHandler = function (event, data, type, animation) {
-					var message, hide = autoHide, hideDelay = autoHideDelay;
+				var removeOldNotifications = function() {
+					// Remove the first notification
+					notifications.shift();
+				};
+
+				var notificationHandler = function(event, data, type, animation) {
+					var id, notificationsCount, message, maxNotifications = autoMaxNotifications,
+						hide = autoHide, hideDelay = autoHideDelay;
 
 					if (typeof data === 'object') {
 						message = data.message;
+						maxNotifications = data.maxNotifications || maxNotifications;
 						hide = (typeof data.hide === 'undefined') ? autoHide : !!data.hide;
 						hideDelay = data.hideDelay || hideDelay;
 					} else {
 						message = data;
 					}
 
-					var id = 'notif_' + (new Date()).getTime();
+					id = 'notif_' + (new Date()).getTime();
+
+					// If there are more then the maximum of notications remove the other old once
+					if (maxNotifications && notifications.length >= maxNotifications) {
+						removeOldNotifications();
+					}
+
 					notifications.push({id: id, type: type, message: message, animation: animation});
+
 					if (hide) {
 						var timer = $timeout(function () {
 							removeById(id);
