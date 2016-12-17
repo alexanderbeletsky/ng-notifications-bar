@@ -171,6 +171,7 @@
 						message = data.message;
 						hide = (typeof data.hide === 'undefined') ? autoHide : !!data.hide;
 						hideDelay = data.hideDelay || hideDelay;
+						type = (typeof data.class === 'undefined') ? type : data.class + ' ' + type;
 					} else {
 						message = data;
 					}
