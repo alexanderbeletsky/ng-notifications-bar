@@ -94,7 +94,10 @@ app.controllers('app', function ($scope, api, notifications) {
 		.then(function (tasks) {
 			$scope.tasks = tasks;
 		}, function (error) {
-			notifications.showError({message: error.message});
+			notifications.showError({
+			  message: error.message,
+			  class: 'my-css-class' // Adds your css class
+			});
 		});
 
 	$scope.submitTask = function () {
